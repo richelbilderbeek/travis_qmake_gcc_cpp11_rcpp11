@@ -1,0 +1,34 @@
+sudo: true
+language: cpp
+compiler: gcc
+dist: trusty
+
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test # C++11
+  - sudo add-apt-repository -y ppa:marutter/rrutter # R
+  - sudo apt-get update -qq
+
+install: 
+  - sudo apt-get install -qq g++-5  # C++11
+  - sudo apt-get install -qq r-base r-base-dev  # R
+  - sudo apt-get install -qq lyx texlive  # pdflatex, used by knitr
+  - sudo Rscript install_r_packages.R  # Rcpp
+
+script: 
+  # C++
+  - ./build_cpp.sh
+  # R wants all non-R files gone...
+  - ./clean.sh
+  - rm .gitignore
+  - rm src/.gitignore
+  - rm .travis.yml
+  - rm -rf .git
+  - rm -rf ..Rcheck
+  # Now R is ready to go
+  - R CMD check .
+
+after_success:
+  - cat /home/travis/build/richelbilderbeek/travis_qmake_gcc_cpp11_rcpp/..Rcheck/00check.log
+
+after_failure:
+  - cat /home/travis/build/richelbilderbeek/travis_qmake_gcc_cpp11_rcpp/..Rcheck/00check.log

@@ -15,7 +15,6 @@
 
 # Fortran module files
 *.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
@@ -27,3 +26,14 @@
 *.exe
 *.out
 *.app
+
+domagic.Rcheck/
+.Rproj.user/
+.Rproj.user
+*.pro.user
+*.pro.user
+.nsf*
+src/.nsf*
+.Rhistory
+domagic
+Makefile
